@@ -38,6 +38,18 @@ public class User {
 
 	@Column(nullable = false)
 	private String password;
+	
+	@Column(nullable = false)
+	private boolean enabled = true;
+	
+	@Column(nullable = false)
+	private boolean accountNonExpired = true;
+	
+	@Column(nullable = false)
+	private boolean accountNonLocked = true;
+	
+	@Column(nullable = false)
+	private boolean credentialsNonExpired = true;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

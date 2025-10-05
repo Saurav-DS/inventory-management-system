@@ -21,10 +21,14 @@ INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO roles (name) VALUES ('ROLE_MANAGER');
 INSERT INTO roles (name) VALUES ('ROLE_STAFF');
 
--- Insert default admin user (password: admin123)
--- (This will be encoded once Spring Security is ready; for now its plain text)
-INSERT INTO users (username, email, password)
-VALUES ('admin', 'admin@ims.com', 'admin123');
+-- Default users
+INSERT INTO users (username, email, password, account_non_expired, account_non_locked, credentials_non_expired, enabled)
+VALUES
+('admin', 'admin@ims.com', '$2a$10$T9ZpKuf1u8aPQc.LG9s8UuU5qHfTfTgYgcw2jH5tXnY9axrj2rh1O', TRUE, TRUE, TRUE, TRUE), -- bcrypt hash for "admin123"
+('manager', 'manager@ims.com', '$2a$10$YqM8h/TX3zSmL3Y6eO1WpuHTxqMoyKUG5cP3HjUctuGmA5G5MxmpG', TRUE, TRUE, TRUE, TRUE), -- "manager123"
+('staff', 'staff@ims.com', '$2a$10$Bb8KQmZr.Z4aZc5B/ek4yO9gP5IqqKkZq4OSsL1M6XUZJ2Gb5ahji', TRUE, TRUE, TRUE, TRUE); -- "staff123"
 
--- Assign ROLE_ADMIN to admin user
-INSERT INTO user_roles (user_id, role_id) VALUES (1, 1);
+-- Default user roles
+INSERT INTO user_roles (user_id, role_id) VALUES (1, 1); -- admin → ROLE_ADMIN
+INSERT INTO user_roles (user_id, role_id) VALUES (2, 2); -- manager → ROLE_MANAGER
+INSERT INTO user_roles (user_id, role_id) VALUES (3, 3); -- staff → ROLE_STAFF
