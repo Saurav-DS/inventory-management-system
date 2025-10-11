@@ -1,5 +1,6 @@
 package com.saurav.ims.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,7 @@ public class SecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthFilter;
 	private final CustomUserDetailsService userDetailsService;
 	
+	@Autowired
 	public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, CustomUserDetailsService userDetailsService) {
 		this.jwtAuthFilter = jwtAuthFilter;
 		this.userDetailsService = userDetailsService;

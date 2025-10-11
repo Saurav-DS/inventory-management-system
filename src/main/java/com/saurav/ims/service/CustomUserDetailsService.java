@@ -1,6 +1,7 @@
 package com.saurav.ims.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +10,7 @@ import com.saurav.ims.model.User;
 import com.saurav.ims.repository.UserRepository;
 import com.saurav.ims.security.CustomUserDetails;
 
+@Configuration
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepository;

@@ -28,7 +28,7 @@ import com.saurav.ims.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/ims/auth")
 @RequiredArgsConstructor
 public class AuthController {
 	
