@@ -1,8 +1,8 @@
 -- Suppliers
 INSERT INTO supplier (id, name, email, phone) VALUES
-(1, 'ABC Supplies', 'contact@abc.com', '9876543210'),
-(2, 'Global Traders', 'info@globaltraders.com', '9123456780'),
-(3, 'QuickStock', 'sales@quickstock.com', '9988776655')
+(1, 'ABC Supplies', 'contact@abc.com', '+919876543210'),
+(2, 'Global Traders', 'info@globaltraders.com', '+919123456780'),
+(3, 'QuickStock', 'sales@quickstock.com', '+919988776655')
 ON CONFLICT (id) DO NOTHING;
 
 -- Items
@@ -16,6 +16,10 @@ INSERT INTO item (id, name, category, price, stock_quantity, supplier_id) VALUES
 (7, 'Headphones', 'Electronics', 1200, 30, 1)
 ON CONFLICT (id) DO NOTHING;
 
+-- Fix sequence to use next available sequest
+SELECT setval('supplier_id_seq', (SELECT MAX(id) FROM supplier));
+SELECT setval('item_id_seq', (SELECT MAX(id) FROM item));
+
 -- Default roles
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO roles (name) VALUES ('ROLE_MANAGER');
@@ -24,9 +28,9 @@ INSERT INTO roles (name) VALUES ('ROLE_STAFF');
 -- Default users
 INSERT INTO users (username, email, password, account_non_expired, account_non_locked, credentials_non_expired, enabled)
 VALUES
-('admin', 'admin@ims.com', '$2a$10$T9ZpKuf1u8aPQc.LG9s8UuU5qHfTfTgYgcw2jH5tXnY9axrj2rh1O', TRUE, TRUE, TRUE, TRUE), -- bcrypt hash for "admin123"
-('manager', 'manager@ims.com', '$2a$10$YqM8h/TX3zSmL3Y6eO1WpuHTxqMoyKUG5cP3HjUctuGmA5G5MxmpG', TRUE, TRUE, TRUE, TRUE), -- "manager123"
-('staff', 'staff@ims.com', '$2a$10$Bb8KQmZr.Z4aZc5B/ek4yO9gP5IqqKkZq4OSsL1M6XUZJ2Gb5ahji', TRUE, TRUE, TRUE, TRUE); -- "staff123"
+('admin', 'admin@ims.com', '$2a$10$spw2CFEf8WZUwHeNZEl7IeJVwWjuhHNHe6zkitMtkrjpVPWErZjMy', TRUE, TRUE, TRUE, TRUE), -- bcrypt hash for "admin123"
+('manager', 'manager@ims.com', '$2a$10$eGxNyXlngKqlnioeBHEMMO2QQp/PjaspqdA5G48JnXjqn.oZg64ri', TRUE, TRUE, TRUE, TRUE), -- "manager123"
+('staff', 'staff@ims.com', '$2a$10$bPd4fS.9xD3VTekY7HGoDeDMSWGhTarbpuFPl467NZ.rAmCE74PMy', TRUE, TRUE, TRUE, TRUE); -- "staff123"
 
 -- Default user roles
 INSERT INTO user_roles (user_id, role_id) VALUES (1, 1); -- admin → ROLE_ADMIN

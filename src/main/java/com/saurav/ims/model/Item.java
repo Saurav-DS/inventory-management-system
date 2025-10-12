@@ -1,5 +1,7 @@
 package com.saurav.ims.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,5 +24,6 @@ public class Item {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "supplier_id")
+	@JsonIgnore
 	private Supplier supplier;
 }

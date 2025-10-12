@@ -39,9 +39,10 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable()) // JWT is stateless, no CSRF needed
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/ims/auth/**").permitAll()
-				.requestMatchers("/ims/admin/**").hasRole("ADMIN")
-				.requestMatchers("/ims/user/**").hasAnyRole("USER","ADMIN")
+				.requestMatchers("/auth/**").permitAll()
+				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/items/**").hasAnyRole("STAFF","ADMIN")
+				.requestMatchers("/suppliers/**").hasAnyRole("STAFF","ADMIN")
 				.anyRequest().authenticated())
 		.authenticationProvider(daoAuthenticationProvider())
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

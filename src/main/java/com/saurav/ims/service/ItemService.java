@@ -1,6 +1,5 @@
 package com.saurav.ims.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,54 +16,67 @@ import com.saurav.ims.repository.SupplierRepository;
 @Service
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
+	@Autowired
+	private ItemRepository itemRepository;
 
-    @Autowired
-    private SupplierRepository supplierRepository;
+	@Autowired
+	private SupplierRepository supplierRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+	// Get all items (with pagination using Projection Query)
+	public Page<ItemDTO> getAllItems(Pageable pageable) {
+		return itemRepository.findAllItems(pageable);
+	}
 
-    // Get all items (with pagination using Projection Query)
-    public Page<ItemDTO> getAllItems(Pageable pageable) {
-        return itemRepository.findAllItems(pageable);
-    }
+	// Create new item
+	public ItemDTO createItem(ItemRequestDTO request) {
 
-    // Create new item
-    public ItemDTO createItem(ItemRequestDTO request) {
-        Item item = modelMapper.map(request, Item.class);
+		Item item = new Item();
+		item.setName(request.getName());
+		item.setCategory(request.getCategory());
+		item.setPrice(request.getPrice());
+		item.setStockQuantity(request.getStockQuantity());
 
-        // Fetch and set Supplier
-        Supplier supplier = supplierRepository.findById(request.getSupplierId())
-                .orElseThrow(() -> new NotFoundException("Supplier not found with id: " + request.getSupplierId()));
-        item.setSupplier(supplier);
+		// Fetch and set Supplier
+		Supplier supplier = supplierRepository.findById(request.getSupplierId())
+				.orElseThrow(() -> new NotFoundException("Supplier not found with id: " + request.getSupplierId()));
+		item.setSupplier(supplier);
 
-        Item saved = itemRepository.save(item);
-        return modelMapper.map(saved, ItemDTO.class);
-    }
+		Item saved = itemRepository.save(item);
 
-    // Update existing item
-    public ItemDTO updateItem(Long id, ItemRequestDTO request) {
-        Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Item not found with id: " + id));
+		ItemDTO itemDto = new ItemDTO(saved.getId(), saved.getName(), saved.getCategory(), saved.getPrice(),
+				saved.getStockQuantity(), saved.getSupplier().getName());
+		return itemDto;
+	}
 
-        modelMapper.map(request, item);
+	// Update existing item
+	public ItemDTO updateItem(Long id, ItemRequestDTO request) {
+		Item item = itemRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Item not found with id: " + id));
+		
+		item.setName(request.getName());
+		item.setCategory(request.getCategory());
+		item.setPrice(request.getPrice());
+		item.setStockQuantity(request.getStockQuantity());
 
-        // Fetch and set Supplier
-        Supplier supplier = supplierRepository.findById(request.getSupplierId())
-                .orElseThrow(() -> new NotFoundException("Supplier not found with id: " + request.getSupplierId()));
-        item.setSupplier(supplier);
+		// Fetch and set Supplier
+		Supplier supplier = supplierRepository.findById(request.getSupplierId())
+				.orElseThrow(() -> new NotFoundException("Supplier not found with id: " + request.getSupplierId()));
+		
+		item.setSupplier(supplier);
 
-        Item updated = itemRepository.save(item);
-        return modelMapper.map(updated, ItemDTO.class);
-    }
+		Item updated = itemRepository.save(item);
+		
+		ItemDTO itemDto = new ItemDTO(updated.getId(), updated.getName(), updated.getCategory(), updated.getPrice(),
+				updated.getStockQuantity(), updated.getSupplier().getName());
+		
+		return itemDto;
+	}
 
-    // Delete item
-    public void deleteItem(Long id) {
-        if (!itemRepository.existsById(id)) {
-            throw new NotFoundException("Item not found with id: " + id);
-        }
-        itemRepository.deleteById(id);
-    }
+	// Delete item
+	public void deleteItem(Long id) {
+		if (!itemRepository.existsById(id)) {
+			throw new NotFoundException("Item not found with id: " + id);
+		}
+		itemRepository.deleteById(id);
+	}
 }
