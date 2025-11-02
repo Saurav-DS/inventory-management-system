@@ -5,7 +5,7 @@ This repository demonstrates best practices in API design, DTOs, validation, pag
 
 ---
 
-## Features (Phase 1)
+## Features
 
 - **Items & Suppliers CRUD**  
   - Create, Read, Update, Delete operations  
@@ -30,13 +30,35 @@ This repository demonstrates best practices in API design, DTOs, validation, pag
 
 ## Tech Stack & Dependencies
 
-| Layer                 | Technology                                              |
-|-----------------------|---------------------------------------------------------|
-| Language & Platform   | Java 17, Spring Boot 3.x                                |
-| Database              | PostgreSQL                                              |
-| ORM / Data            | Spring Data JPA, Hibernate                              |
-| Validation / Mapping  | Hibernate Validator, ModelMapper, Google libphonenumber |
-| Build & Dev           | Maven, Lombok                                           |
------------------------------------------------------------------------------------
+- **Backend:** Java 17, Spring Boot 3
+- **Security:** Spring Security + JWT
+- **Database:** PostgreSQL
+- **ORM:** Spring Data JPA
+- **Build Tool:** Maven
+- **Testing:** JUnit 5, Mockito
+- **API Documentation (Upcoming):** Swagger / OpenAPI
+- **Reporting (Upcoming):** Excel / CSV / PDF export
 
+---
+
+## Features
+
+ JWT Authentication (Login & Secure APIs)  
+ CRUD Operations for Items and Suppliers  
+ Pagination and Sorting Support  
+ Centralised Exception Handling  
+ DTO-based Request/Response  
+ Unit Tests with Mockito and SpringBootTest  
+ PostgreSQL Integration  
+ (Planned) Reporting and Export (Excel/PDF)  
+ (Planned) Caching and Kafka Integration  
+
+ ---
+
+ ## Run
+You can easily test all endpoints using the provided Postman Collection.
+Steps:
+Open Postman.
+Click Import → Upload Files → select
+IMS.postman_collection.json (found in the root of the project).
 
